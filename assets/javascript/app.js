@@ -23,16 +23,16 @@ $("button").on("click", function (event) {
         name: trainName,
         end: destination,
         start: trainStart,
-        frequency: frequency
+        frequency: frequency,
     };
     //upload train data to database
-    database.ref().push(newTrain);
+    // database.ref().push(newTrain);
 
     //log data to console
-    console.log(newTrain.name);
-    console.log(newTrain.end);
-    console.log(newTrain.start);
-    console.log(newTrain.frequency);
+    console.log("Name =" +newTrain.name);
+    console.log("end ="+newTrain.end);
+    console.log("start ="+newTrain.start);
+    console.log("frequency ="+newTrain.frequency);
 
     //Clear text boxes
     $("trainName-input").val("");
@@ -64,7 +64,7 @@ database.ref().on("child_added", function (childSnapshot, prevChildKey) {
     console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
 
     var diffTime = moment().diff(moment(trainStartConverted), "minutes");
-    console.log("Difference in time=" +diffTime);
+    console.log("Difference in time=" + diffTime);
 
     var remainder = diffTime % frequency;
      console.log(remainder);
@@ -77,6 +77,6 @@ database.ref().on("child_added", function (childSnapshot, prevChildKey) {
       var nextTrain = moment().add(minutes, "minutes");
       console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
 
-    $(".table").append("<tr><td>" + trainName + "<td><td>" + destination + "<td><td>" + frequency + "<td><td>" + nextTrain + "<td><td>" + minutes + "<td><tr>");
+    $("#tbody").append("<tr><td>" + trainName + "</td><td>" + destination + "</td><td>" + frequency + "</td><td>" + nextTrain + "</td><td>" + minutes + "</td></tr>");
 
 })
