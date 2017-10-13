@@ -11,6 +11,12 @@ firebase.initializeApp(config);
 // Create a variable to reference the database
 var database = firebase.database();
 
+function Train(name, destination, trainStart, frequency) {
+    this.name = name;
+    this.destination = destination;
+    this.trainStart = trainStart;
+    this.frequency = frequency;
+}
 $("button").on("click", function (event) {
     event.preventDefault();
     var trainName = $("trainName-input").val();
@@ -19,20 +25,17 @@ $("button").on("click", function (event) {
     var frequency = $("frequency-input").val();
 
     //create local temporary object for holding train data
-    var newTrain = {
-        name: trainName,
-        end: destination,
-        start: trainStart,
-        frequency: frequency,
-    };
+
+    var newTrain = Train(name, destination, trainStart, frequency);
+
     //upload train data to database
     // database.ref().push(newTrain);
 
     //log data to console
-    console.log("Name =" +newTrain.name);
-    console.log("end ="+newTrain.end);
-    console.log("start ="+newTrain.start);
-    console.log("frequency ="+newTrain.frequency);
+    console.log("Name =" + newTrain.name);
+    console.log("end =" + newTrain.destination);
+    console.log("start =" + newTrain.trainStart);
+    console.log("frequency =" + newTrain.frequency);
 
     //Clear text boxes
     $("trainName-input").val("");
@@ -67,15 +70,15 @@ database.ref().on("child_added", function (childSnapshot, prevChildKey) {
     console.log("Difference in time=" + diffTime);
 
     var remainder = diffTime % frequency;
-     console.log(remainder);
+    console.log(remainder);
 
     //Minutes til next train
     var minutes = frequency - remainder;
     console.log(minutes);
 
-      // Next Train
-      var nextTrain = moment().add(minutes, "minutes");
-      console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+    // Next Train
+    var nextTrain = moment().add(minutes, "minutes");
+    console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
 
     $("#tbody").append("<tr><td>" + trainName + "</td><td>" + destination + "</td><td>" + frequency + "</td><td>" + nextTrain + "</td><td>" + minutes + "</td></tr>");
 
